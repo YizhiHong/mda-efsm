@@ -1,42 +1,48 @@
 // Import class Module GP-11 and GP-2 
 const GP1 = require('./GasPump/GP-1')
 const GP2 = require('./GasPump/GP-2')
-
+const {AF_1,AF_2} = require('./Others/abstractFactory')
+const efsm = require('./MDA-EFSM/mda-efsm')
+const OP = require('./Operation/op')
+	
+const O = "Operation: "
 const readline = require('readline')
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
+  prompt: ">>>"
 });
-
 
 const readme = "\n\n\n\nWelcome to gas pump application\n\n" 
 				+ "CS584 Project by Yizhi Hong\n\n"
 
 
-const MENU_GP1 = {
+let MENU_GP1 = {
     Activate: ['Please Enter value a', 'Please Enter value b'],
-    Pay: ['A2: Question 1', 'A2: Question 2']
+    PayDebit: ['Please initialize your Pin code'],
+    Pin: ['Please Enter your Pin']
 }
 
-const MENU_GP2 = {
+let MENU_GP2 = {
     Activate: ['Please Enter value a', 'Please Enter value b', 'Please Enter value c'],
-    action2: ['A2: Question 1', 'A2: Question 2']
+    PayCash: ['Please Enter your cash value']
 }
 
-const menu1 = "1.Activate(float a,float b)\n"
-			+"2.Start()\n"
-			+"3.PayCredit()\n"
+const menu1 = "1.Activate(float a,float b) "
+			+"2.Start() "
+			+"3.PayCredit() "
 			+"4.PayDebit(string p)\n"
-			+"5.Approved()\n"
-			+"6.Reject()\n"
-			+"7.Start()\n"
-			+"8.Cancel()\n"
-			+"9.Pin(String x)\n"
-			+"10.Regular()\n"
-			+"11.StartPump()\n"
+			+"5.Approved() "
+			+"6.Reject() "
+			+"7.Cancel() "
+			+"8.Pin(String x)\n"
+			+"9.Regular() "
+			+"10.Diesel() "
+			+"11.StartPump() "
 			+"12.PumpGallon()\n"
-			+"13.StopPump()\n"
-			+"14.FullTank()\n"
+			+"13.StopPump() "
+			+"14.FullTank() "
+			+"q.quit the application\n"
 
 const menu2 = "1.Activate(float a,float b, float c)\n"
 			+"2.PayCash(float c)\n"
@@ -64,10 +70,11 @@ const askInput = (MENU,action) => {
 
         questions.forEach(question => {
           chainQ = chainQ.then( answers => new Promise( (resQ, rejQ) => {
-                rl.question(`${question}: `, answer => { 
-                	answers.push(answer)
-                	resQ(answers)
-                })
+              rl.question(`${question}: `, answer => { 
+              	answers.push(answer)
+              	resQ(answers)
+              	
+              })
             })
           );
         });
@@ -83,24 +90,111 @@ const driver1 = (GasPump,menu) => {
 
 	// Display the menu
 	console.log(menu)
-
 	rl.prompt()
 
 	rl.on('line', (line) => {
 	  switch (line.trim()) {
 
 	    case '1': // Activate()
+	    	console.log(O + "Activate(float a,float b)")
 
 	      askInput(MENU_GP1,'Activate') // Ask for input value
 	      .then((ans) => {
-      		GasPump.Activate(parseFloat(ans[0]),parseFloat(ans[1]))
+	      	a = parseFloat(ans[0])
+	      	b = parseFloat(ans[1])
+	      	GasPump.Activate(a,b)
+	      	rl.prompt()
 	      })
-
 	      break
 	      
 	    case '2': // Start()
+	    	console.log(O + "Start()")
+
 	    	GasPump.Start()
 	      break
+
+	    case '3':
+	    	console.log(O + "PayCredit()")
+
+	    	GasPump.PayCredit()
+	      break
+
+	    case '4':
+	    	console.log(O + "PayDebit(string p)")
+
+				askInput(MENU_GP1,'PayDebit') // Ask for init Pin code
+		      .then((ans) => {
+		      	p = ans[0]
+		      	GasPump.PayDebit(p)
+		      	rl.prompt()
+		      })
+	    	break
+
+	    case '5':
+	    	console.log(O + "Approved()")
+
+	    	GasPump.Approved()
+	    	break
+
+	    case '6':
+	    	console.log(O + "Reject()");
+
+	    	GasPump.Reject()
+	    	break
+
+	    case '7':
+	    	console.log(O + "Cancel()");
+
+	    	GasPump.Cancel()
+	    	break
+
+	    case '8':
+	    	console.log(O + "Pin(String x)");
+
+	    	askInput(MENU_GP1,'Pin') // Ask for input Pin code
+		      .then((ans) => {
+		      	p = ans[0]
+		      	GasPump.Pin(p)
+		      	rl.prompt()
+		    })
+	    	break
+
+	    case '9':
+	    	console.log(O + "Regular()");
+
+	    	GasPump.Regular()
+	    	break
+
+	    case '10':
+	    	console.log(O + "Diesel()");
+
+	    	GasPump.Diesel()
+	    	break
+
+	    case '11':
+	    	console.log(O + "StartPump()");
+
+	    	GasPump.StartPump()
+	    	break
+
+	    case '12':
+	    	console.log(O + "PumpGallon()");
+
+	    	GasPump.PumpGallon()
+	    	break
+
+	    case '13':
+	    	console.log(O + "StopPump()");
+
+	    	GasPump.StopPump()
+	    	break
+
+	    case '14':
+	    	console.log(O + "FullTank()");
+
+	    	GasPump.FullTank()
+	    	break
+
 	    case 'q':
 	    	rl.close()
 	    	break
@@ -155,17 +249,30 @@ const driver2 = (GasPump,menu) => {
 	});
 }
 
-rl.question('Please select the GP-1 or GP-2 by enter 1 or 2\n\n ', (answer) => {
+rl.question('Please select the GP-1 or GP-2 by enter 1 or 2\n\n>>> ', (answer) => {
+
+	let AF, op
+	let mda 
+
 	if (answer === '1'){
 		//Gas Pump 1 Start
 
-		let gp = new GP1()
+		AF = new AF_1 //create a AF_1 concrete class
+		op = new OP(AF) //create a OP concrete class
+		mda = new efsm(op) //create a MDA-EFSM concrete class
+
+		let gp = new GP1(mda,AF,op)
 		driver1(gp,menu1)
 	}else if (answer === '2'){
 		//Gas Pump 2 Start
 
-		let gp = new GP2()
+		AF = new AF_2 //create a AF_1 concrete class
+		op = new OP(AF) //create a OP concrete class
+		mda = new efsm(op) //create a MDA-EFSM concrete class
+
+		let gp = new GP2(mda,AF,op)
 		driver2(gp,menu2)
+
 
 	}else{
 		console.log('Your put the wrong input!! please excute the application again!!');
