@@ -26,13 +26,65 @@ class GP_1 {
   }
 
   PayCredit(){
-  	this.M.PayCredit()
+  	this.M.Pay(1)
   }
 
   PayDebit(p){
   	this.D.setTemp_p(p)
-  	this.M.PayDebit()
+  	this.M.Pay(2)
   }
+
+  Approved(){
+  	this.M.Approved()
+  }
+
+  Reject(){
+  	this.M.Reject()
+  }
+
+  Cancel(){
+  	this.M.Back()
+  	this.M.Cancel()
+  }
+
+  Pin(x){
+  	pin = this.D.getPin()
+  	if (pin === x){
+  		this.M.Approved()
+  	}else{
+  		this.M.IncorrectPin()
+  	}
+  }
+
+  Regular(){
+  	this.M.SelectGas(1)
+  }
+
+  Diesel(){
+  	this.M.SelectGas(2)
+  }
+
+  StartPump(){
+  	if(this.D.getPrice() > 0){
+  		this.M.StartPump()
+  	}
+  }
+
+  PumpGallon(){
+  	this.M.Pump()
+  }
+
+  StopPump(){
+  	this.M.StopPump()
+  	this.M.Receipt()
+
+  }
+
+  FullTank(){
+		this.M.StopPump()
+  	this.M.Receipt()
+  }
+
 }
 
 
