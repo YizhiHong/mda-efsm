@@ -136,7 +136,7 @@ class State {
 	}
 
 	Back(){
-		console.log('Nothing happen!');
+		// console.log('Nothing happen!')
 	}
 
 }
@@ -191,8 +191,6 @@ class S1 extends State {
 
 			this.mda.changeState(4) // point to S3
 		}
-		
-		console.log("Waiting For Approve!")
 	}
 }
 
@@ -237,7 +235,7 @@ class S3 extends State {
 
 		this.OP.SetPrice(g)
 
-		this.mad.changeState(5)
+		this.mda.changeState(5)
 	}
 
 
@@ -288,13 +286,13 @@ class S6 extends State {
 		this.OP.PrintReceipt()
 		this.OP.ReturnCash()
 
-		this.mda.changeSTate(1)
+		this.mda.changeState(1)
 	}
 
 	NoReceipt(){
 		this.OP.ReturnCash()
 
-		this.mda.changeSTate(1)
+		this.mda.changeState(1)
 	}
 }
 

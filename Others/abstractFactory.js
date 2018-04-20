@@ -27,6 +27,21 @@ class storedata_1 extends STOREDATA{
 	}
 }
 
+class storedata_2 extends STOREDATA{
+	constructor(DS) {
+		super(DS) 
+	}
+	StoreData(){
+		a = this.D.getTemp_a()
+		b = this.D.getTemp_b()
+		c = this.D.getTemp_c()
+		this.D.setRprice(a)
+		this.D.setDprice(b)
+		console.log('Gas Pump Activated') 
+	}
+}
+
+
 class PAYMSG {
 	constructor(DS) {
 		this.D = DS
@@ -52,12 +67,14 @@ class DISPLAYMENU {
 
 class displaymenu_1 extends DISPLAYMENU {
 	constructor(DS) {
-		this.D = DS
+		super(DS)
 	}
 	DisplayMenu(){
-		console.log("your card approved\n");
+		console.log("-------------------Gas Menu--------------------")
+		console.log("Your card approved\n");
 		console.log("Today Gas Price:\n" + "Regular: " + this.D.getRprice()+ " Diesel: "+ this.D.getDprice())
-		console.log("please select gases!(press 7 to Cancel)")
+		console.log("please select gases!(Press 9.Regular 10.Diesel 7.Cancel)")
+		console.log("-----------------------------------------------")
 	}
 }
 
@@ -70,10 +87,11 @@ class REJECTMSG {
 
 class rejectmsg_1 extends REJECTMSG {
 	constructor(DS) {
-		this.D = DS
+		super(DS)
 	}
-	RejctMsg(){
-		console.log("your card has been rejected!!!")
+	RejectMsg(){
+
+		console.log("Your card has been rejected!!!")
 	}
 }
 
@@ -86,10 +104,10 @@ class CANCELMSG {
 
 class cancelmsg_1 extends CANCELMSG {
 	constructor(DS) {
-		this.D = DS
+		super(DS)
 	}
 	CancelMsg(){
-		console.log("you already cancel your card!!!")
+		console.log("You already cancel your card!!!")
 	}
 }
 
@@ -97,12 +115,32 @@ class ENTERPINMSG {
 	constructor(DS) {
 		this.D = DS
 	}
-	
+}
+
+class enterpinmsg_1 extends ENTERPINMSG {
+	constructor(DS) {
+		super(DS)
+	}
+
+	EnterPinMsg(){
+		console.log("waiting for invoke pin()")
+	}
 }
 
 class STOREPIN {
 	constructor(DS) {
 		this.D = DS
+	}
+	StorePin(p){}
+}
+
+class storepin_1 extends STOREPIN {
+	constructor(DS) {
+		super(DS)
+	}
+
+	StorePin(){
+		this.D.setPin(this.D.getTemp_p())
 	}
 }
 
@@ -117,17 +155,60 @@ class SETPRICE {
 	constructor(DS) {
 		this.D = DS
 	}
+	SetPrice(){}
+}
+
+class setprice_1 extends SETPRICE {
+	constructor(DS) {
+		super(DS)
+	}
+	SetPrice(g){
+		if (g === 1){
+			this.D.setPrice(this.D.getRprice())
+			console.log("You selected the Regular, Price:" + this.D.getPrice())
+		} else if(g === 2){
+			this.D.setPrice(this.D.getDprice())
+			console.log("You selected the Diesel, Price:" + this.D.getPrice())
+		}
+	}
 }
 
 class SETINIT {
 	constructor(DS) {
 		this.D = DS
 	}
+	SetInit(){}
+}
+
+class setinit_1 extends SETINIT {
+	constructor(DS) {
+		super(DS)
+	}
+	SetInit(){
+		this.D.setTotal(0.0)
+		this.D.setG(0)
+		console.log("All set, you can PumpGallon() now!!!")
+	}
 }
 
 class PUMPEDGASUNIT {
 	constructor(DS) {
 		this.D = DS
+	}
+	PumpedGasUnit(){}
+}
+
+
+class pumpedgasunit_1 extends PUMPEDGASUNIT {
+	constructor(DS) {
+		super(DS)
+	}
+	PumpedGasUnit(){
+		let G = this.D.getG()
+		G = G + 1
+		this.D.setG(G)
+		let total = (G)*this.D.getPrice()
+		this.D.setTotal(total)
 	}
 }
 
@@ -138,16 +219,48 @@ class DISPLAYPUMPED {
 	}
 }
 
+class displaypumped_1 extends DISPLAYPUMPED {
+	constructor(DS) {
+		super(DS)
+	}
+	DisplayPumped(){
+		console.log("Pumped gallon:" + this.D.getG())
+		console.log("total:" + this.D.getTotal())
+	}
+} 
 
 class STOPMSG {
 	constructor(DS) {
 		this.D = DS
+	}
+	StopMsg(){}
+}
+
+class stopmsg_1 extends STOPMSG {
+	constructor(DS) {
+		super(DS)
+	}
+	StopMsg(){
+		console.log("The gaspump is stopping now!")
 	}
 }
 
 class PRINTRECEIPT {
 	constructor(DS) {
 		this.D = DS
+	}
+	PrintReceipt(){}
+}
+
+class printreceipt_1 extends PRINTRECEIPT {
+	constructor(DS) {
+		super(DS)
+	}
+	PrintReceipt(){
+		console.log("printing your receipt...")
+		console.log("-------------------------\n")
+		console.log("-total gallons:" + this.D.getG())
+		console.log("-total:" + this.D.getTotal() + "\n")
 	}
 }
 
@@ -157,16 +270,42 @@ class RETURNCASH {
 	}
 }
 
+class returncash_1 extends RETURNCASH {
+	constructor(DS) {
+		super(DS)
+	}
+	ReturnCash(){}
+}
+
+
 class SETM {
 	constructor(DS) {
 		this.D = DS
 	}
+	SetM(){}
 }
 
+class setm_1 extends SETM {
+	constructor(DS) {
+		super(DS)
+	}
+	SetM(k){
+	}
+}
 
 class WRONGPINMSG {
 	constructor(DS) {
 		this.D = DS
+	}
+	WrongPinMsg(){}
+}
+
+class wrongpinmsg_1 extends WRONGPINMSG{
+	constructor(DS) {
+		super(DS)
+	}
+	WrongPinMsg(){
+		console.log("Sorry! Your pin is incorrect!!!")
 	}
 }
 
@@ -183,15 +322,13 @@ class initprice_1 extends INITPRICE{
 	}
 	InitPrice(){
 		this.D.setPrice(0.0)
+		this.D.setPin("")
 	}
 }
 
 
 class AbstractFactory {
-  constructor() {
-
-  }
-
+  constructor() {}
 }
 
 class AF_1 extends AbstractFactory{
@@ -213,7 +350,7 @@ class AF_1 extends AbstractFactory{
   }
 
   getDisplayMenu(){
-  	return new displaymeny_1(this.D)
+  	return new displaymenu_1(this.D)
   }
 
   getRejectMsg(){
@@ -296,7 +433,7 @@ class AF_2 extends AbstractFactory{
   }
 
   getDisplayMenu(){
-  	return new displaymeny_2(this.D)
+  	return new displayment_2(this.D)
   }
 
   getRejectMsg(){

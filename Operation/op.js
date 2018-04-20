@@ -66,7 +66,7 @@ class OP {
   }
 
   DisplayPumped(){
-  	let DP = this.AF.getDisplayMenu()
+  	let DP = this.AF.getDisplayPumped()
   	DP.DisplayPumped()
   }
 
@@ -87,7 +87,7 @@ class OP {
 
   SetM(k){
   	let SETM = this.AF.getSetM()
-  	SETM.setM(k)
+  	SETM.SetM(k)
   }
 
   WrongPinMsg(){

@@ -35,7 +35,11 @@ class GP_1 {
   }
 
   Approved(){
-  	this.M.Approved()
+  	if (this.D.getPin() === ""){
+  		this.M.Approved()
+  	}else{
+  		console.log("Nothing happen!")
+  	}
   }
 
   Reject(){
@@ -48,8 +52,7 @@ class GP_1 {
   }
 
   Pin(x){
-  	pin = this.D.getPin()
-  	if (pin === x){
+  	if (this.D.getPin() === x){
   		this.M.Approved()
   	}else{
   		this.M.IncorrectPin()
