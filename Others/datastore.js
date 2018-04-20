@@ -92,6 +92,7 @@ class DS_2 extends DataStore {
   	let cash = 0.0
   	let total = 0.0
   	let L = 0
+    let M
 
   	// create the getter and setter
   	this.getTemp_a = () =>{
@@ -160,6 +161,10 @@ class DS_2 extends DataStore {
   	this.setPprice = p =>{
   		Pprice = p
   	}
+    this.getM = () => M
+    this.setM = m =>{
+      M =m
+    }
   }
 }
 

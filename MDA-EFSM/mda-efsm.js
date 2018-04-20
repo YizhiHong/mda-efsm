@@ -174,6 +174,7 @@ class S1 extends State {
 	Pay(t){ // 1:credit 2:debit 3:cash
 		if(t === 1){
 
+			this.OP.SetM(1)
 			this.mda.changeState(3) // point to S2
 
 		}else if (t === 2){
