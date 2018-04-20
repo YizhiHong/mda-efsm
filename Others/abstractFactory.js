@@ -189,8 +189,6 @@ class storecash_2 extends STORECASH {
 	}
 }
 
-
-
 class SETPRICE {
 	constructor(DS) {
 		this.D = DS
@@ -319,6 +317,9 @@ class displaypumped_2 extends DISPLAYPUMPED {
 	DisplayPumped(){
 		console.log("Pumped Liter:" + this.D.getL())
 		console.log("total:" + this.D.getTotal())
+		if (this.D.getCash() > 0){
+			console.log("balance:" + (this.D.getCash() - this.D.getTotal()))
+		}
 	}
 } 
 
@@ -362,6 +363,7 @@ class printreceipt_1 extends PRINTRECEIPT {
 	PrintReceipt(){
 		console.log("printing your receipt...")
 		console.log("-------------------------\n")
+		console.log("-pay method: " + (this.D.getPin() === "" ? "Credit card": "Debit card"))
 		console.log("-total gallons:" + this.D.getG())
 		console.log("-total:" + this.D.getTotal() + "\n")
 	}
@@ -374,6 +376,7 @@ class printreceipt_2 extends PRINTRECEIPT {
 	PrintReceipt(){
 		console.log("printing your receipt...")
 		console.log("-------------------------\n")
+		console.log("-pay method: " + (this.D.getCash() > 0 ? "Cash": "Credit card"))
 		console.log("-total liters:" + this.D.getL())
 		console.log("-total:" + this.D.getTotal() + "\n")
 	}
@@ -398,8 +401,13 @@ class returncash_2 extends RETURNCASH {
 		super(DS)
 	}
 	ReturnCash(){
-		let remain = this.D.getCash() - this.D.getTotal()
-		console.log("returning your cash $" + remain)
+		if (this.D.getCash() > 0){
+			let remain = this.D.getCash() - this.D.getTotal()
+			if(remain>0){
+				console.log("returning your remaining cash $" + remain)
+			}
+		}
+
 	}
 }
 
