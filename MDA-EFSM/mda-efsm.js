@@ -12,7 +12,7 @@ const MDA_EFSM = class MDA {
    	const stateList = [new Start(this,op),new S0(this,op),new S1(this,op),new S2(this,op),new S3(this,op), new S4(this,op), new S5(this,op), new S6(this,op), new S7(this,op)]
    	this.S = stateList[0] // initially point to Start state 
 
-   	// Provide change state
+   	// Provide state changing
    	this.changeState = (i) => {
    		this.S = stateList[i]
    	}

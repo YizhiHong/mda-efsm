@@ -180,6 +180,15 @@ class STORECASH {
 	StoreCash(){}
 }
 
+class storecash_1 extends STORECASH {
+	constructor(DS) {
+		super(DS)
+	}
+	StoreCash(){
+		// this.D.setCash(this.D.getTemp_cash())
+	}
+}
+
 class storecash_2 extends STORECASH {
 	constructor(DS) {
 		super(DS)

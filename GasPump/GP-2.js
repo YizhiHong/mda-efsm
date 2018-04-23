@@ -17,6 +17,7 @@ class GP_2 {
         this.D.setTemp_c(c)
       }
       this.M.Activate() // call mda-efsm activate
+      this.M.Start()
     } else {
       console.log('Invaild input!!!')
     }
@@ -25,7 +26,6 @@ class GP_2 {
   PayCash(c){
     if (c > 0){
       this.D.setTemp_cash(c)
-      this.M.Start()
       this.M.Pay(3)
     }else{
       console.log('Invaild input!!!')
@@ -34,7 +34,6 @@ class GP_2 {
   }
 
   PayCredit(){
-    this.M.Start()
     this.M.Pay(1)
   }
 
