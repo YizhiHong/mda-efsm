@@ -1,7 +1,7 @@
 /*
  this class is for MDA-EFSN
 
- It uses state architecture
+ It uses state architecture - decentralized solution
 */
 
 const MDA_EFSM = class MDA {
@@ -10,7 +10,8 @@ const MDA_EFSM = class MDA {
   constructor(op) {
 
    	const stateList = [new Start(this,op),new S0(this,op),new S1(this,op),new S2(this,op),new S3(this,op), new S4(this,op), new S5(this,op), new S6(this,op), new S7(this,op)]
-   	this.S = stateList[0] // initially point to Start state 
+	// a stateList to maintain a list of start from start to S7
+   	this.S = stateList[0] // current state: initially point to Start state 
 
    	// Provide state changing
    	this.changeState = (i) => {
@@ -77,6 +78,7 @@ const MDA_EFSM = class MDA {
 
 }
 
+// A State
 class State {
 	constructor(mda,operation) {
 		this.mda = mda
@@ -145,7 +147,7 @@ class Start extends State {
 	constructor(mda,operation) {
 		super(mda,operation)
 	}
-
+	//invokes StoreData, change state to S0
 	Activate(){
 		this.OP.StoreData()
 		this.mda.changeState(1)
@@ -157,7 +159,7 @@ class S0 extends State {
 	constructor(mda,operation) {
 		super(mda,operation)
 	}
-
+	//invokes PayMsg and InitPrice actions, change state to S1
 	Start(){
 		this.OP.PayMsg()
 		this.OP.InitPrice()
@@ -170,8 +172,8 @@ class S1 extends State {
 	constructor(mda,operation) {
 		super(mda,operation)
 	}
-
-	Pay(t){ // 1:credit 2:debit 3:cash
+	//invokes different action base on 1:credit 2:debit 3:cash
+	Pay(t){
 		if(t === 1){
 
 			this.OP.SetM(1)
@@ -199,7 +201,7 @@ class S2 extends State {
 	constructor(mda,operation) {
 		super(mda,operation)
 	}
-
+	//invokes SetM(1) and DisplayMenu(), change state to S3
 	Approved(){
 
 		this.OP.SetM(1)
@@ -208,6 +210,7 @@ class S2 extends State {
 		this.mda.changeState(4)
 	}
 
+	//invokes RejectMsg() and back to S0
 	Reject(){
 
 		this.OP.RejectMsg()
@@ -220,21 +223,22 @@ class S3 extends State {
 	constructor(mda,operation) {
 		super(mda,operation)
 	}
-
+	//invokes CancelMsg() and back to S0
 	Cancel(){
 
 		this.OP.CancelMsg()
 
 		this.mda.changeState(1)
 	}
-
+	//back to S3
 	Back(){
 		this.mda.changeState(4)
 	}
-
+	// invokes SetPrice(g), change state to S4
 	SelectGas(g){
 
 		this.OP.SetPrice(g)
+
 
 		this.mda.changeState(5)
 	}
@@ -251,7 +255,7 @@ class S4 extends State {
 	Back(){
 		this.mda.changeState(4)
 	}
-
+	//invokes SetInit(), change state to S5
 	StartPump(){
 		this.OP.SetInit()
 
@@ -263,14 +267,14 @@ class S5 extends State {
 	constructor(mda,operation) {
 		super(mda,operation)
 	}
-
+	// invokes PumpedGasUnit() and DisplayPumped(), keep in state S5
 	Pump(){
 		this.OP.PumpedGasUnit()
 		this.OP.DisplayPumped()
 
 		this.mda.changeState(6)
 	}
-
+	// invokes StopMsg(), change state to S6
 	StopPump(){
 		this.OP.StopMsg()
 
@@ -283,13 +287,14 @@ class S6 extends State {
 		super(mda,operation)
 	}
 
+	// invokes PrintReceipt() and ReturnCash(), back to S0
 	Receipt(){
 		this.OP.PrintReceipt()
 		this.OP.ReturnCash()
 
 		this.mda.changeState(1)
 	}
-
+	// invokes ReturnCash(), back to S0
 	NoReceipt(){
 		this.OP.ReturnCash()
 
@@ -301,13 +306,13 @@ class S7 extends State {
 	constructor(mda,operation) {
 		super(mda,operation)
 	}
-
+	// invokes ReturnCash(), back to S0
 	Approved(){
 		this.OP.DisplayMenu()
 
 		this.mda.changeState(4)
 	}
-
+	// invokes WrongPinMsg(), back to S0
 	IncorrectPin(){
 		this.OP.WrongPinMsg()
 

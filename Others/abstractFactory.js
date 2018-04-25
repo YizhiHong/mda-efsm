@@ -1,11 +1,55 @@
 /*
  this class is for abstract factory and the operation's classes
 
- It uses abstract factory architecture and strategy architecture   
+ It uses abstract factory architecture and strategy architecture
+contains:
+1.AbstractFactory, AF_1,AF_2. 
+2.The classes with different functionality connected to OP
 */
+
+
 
 const {DS_1,DS_2} = require('../Others/datastore')
 
+
+/*
+storedata_1: set up initial price for Regular and Diesel
+storedata_2: set up initial price for Regular and Super, Premium
+paymsg_1: display pay message
+paymsg_2: nothing to do since skips Start()
+displaymenu_1:  display gas selection menu (Regular and Diesel)
+displaymenu_2: display gas selection menu (Regular and Super, Premium)
+rejectmsg_1: display credit card rejected message
+rejectmsg_2: display credit card rejected message
+cancelmsg_1: display cancel message
+cancelmsg_2: display cancel message
+enterpinmsg_1: display enter pin code message
+enterpinmsg_2: nothing to do
+storepin_1: store pin code into datastore
+storepin_2: nothing to do
+storecash_1: nothing to do
+storecash_2: store cash in datastore
+setprice_1: set price at selected price
+setprice_2: set price at selected price
+setinit_1: initialize the Total and G
+setinit_2: initialize the Total and L
+pumpedgasunit_1: pumped gas by gallon.
+pumpedgasunit_2: pumped gas by liter.
+displaypumped_1: display information properly
+displaypumped_2: display information properly
+stopmsg_1: print stop message
+stopmsg_2: print stop message
+printreceipt_1: print receipt properly
+printreceipt_2: print receipt properly
+returncash_1: nothing to do
+returncash_2: return cash base on total and cash, and set cash to zero
+setm_1: set M value in datastore
+setm_2: set M value in datastore
+wrongpinmsg_1: display wrong pin information
+wrongpinmsg_2: nothing to do
+initprice_1: initialize price to zero
+initprice_2: initialize price to zero
+*/
 
 class STOREDATA {
 	constructor(DS) {
@@ -13,7 +57,7 @@ class STOREDATA {
 	}
 
 }
-
+// set up initial price
 class storedata_1 extends STOREDATA{
 	constructor(DS) {
 		super(DS) 
@@ -26,7 +70,7 @@ class storedata_1 extends STOREDATA{
 		console.log('Gas Pump Activated') 
 	}
 }
-
+// set up initial price
 class storedata_2 extends STOREDATA{
 	constructor(DS) {
 		super(DS) 
@@ -49,7 +93,7 @@ class PAYMSG {
 	}
 	PayMsg(){}
 }
-
+// display pay message
 class paymsg_1 extends PAYMSG{
 	constructor(DS) {
 		super(DS)
@@ -325,7 +369,9 @@ class displaypumped_2 extends DISPLAYPUMPED {
 	}
 	DisplayPumped(){
 		console.log("Pumped Liter:" + this.D.getL())
-		console.log("total:" + this.D.getTotal())
+		if(this.D.getM() == 1){
+			console.log("total:" + this.D.getTotal())
+		}
 		if (this.D.getCash() > 0){
 			console.log("balance:" + (this.D.getCash() - this.D.getTotal()))
 		}
@@ -415,6 +461,7 @@ class returncash_2 extends RETURNCASH {
 			if(remain>0){
 				console.log("returning your remaining cash $" + remain)
 			}
+			this.D.setCash(0)
 		}
 
 	}
@@ -503,7 +550,7 @@ class AF_1 extends AbstractFactory{
 		super()
 		this.D = new DS_1
   }
-
+  // Return the current datastore that it points to.
   getDatastore() {
   	return this.D
   }
@@ -586,7 +633,7 @@ class AF_2 extends AbstractFactory{
 		super()
 		this.D = new DS_2
   }
-
+  // Return the current datastore that it points to.
   getDatastore() {
   	return this.D
   }

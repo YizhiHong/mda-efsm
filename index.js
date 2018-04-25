@@ -1,4 +1,8 @@
-// Import class Module GP-11 and GP-2 
+/*
+This is a driver 
+*/
+
+// Import class Module
 const GP1 = require('./GasPump/GP-1')
 const GP2 = require('./GasPump/GP-2')
 const {AF_1,AF_2} = require('./Others/abstractFactory')

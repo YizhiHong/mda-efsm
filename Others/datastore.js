@@ -1,3 +1,8 @@
+/*
+  Data store class:
+  contains: DS_1, DS_2
+*/
+
 class DataStore {
   constructor() {
 
@@ -8,15 +13,15 @@ class DS_1 extends DataStore {
   constructor() {
   	super()
   	// create the attrbutes
-  	let temp_a = 0.0
-  	let temp_b = 0.0
-  	let temp_p = ""
-  	let pin = ""
-  	let price
-  	let G = 0
-  	let total =0.0
-  	let Rprice = 0.0
-  	let Dprice = 0.0
+  	let temp_a = 0.0 
+  	let temp_b = 0.0 
+  	let temp_p = "" // store temp pin
+  	let pin = ""  // store pin
+  	let price      // store final price
+  	let G = 0      // store gallon pumped
+  	let total =0.0 // store total price
+  	let Rprice = 0.0 // store regular price
+  	let Dprice = 0.0 // store diesel price
 
   	// create the getter and setter
   	this.getTemp_a = () =>{

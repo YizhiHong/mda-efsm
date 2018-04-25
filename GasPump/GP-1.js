@@ -1,3 +1,6 @@
+/*
+  Gas Pump 1
+*/
 class GP_1 {
   constructor(efsm,abstractFactory,operation) {
 
